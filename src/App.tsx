@@ -16,13 +16,11 @@ import { BMI_BOYS_SAMPLE_MODE } from './data/bmiBoys';
 import { BMI_GIRLS_SAMPLE_MODE } from './data/bmiGirls';
 import { BP_BOYS_SAMPLE_MODE } from './data/bpBoys';
 import { BP_GIRLS_SAMPLE_MODE } from './data/bpGirls';
-import { calculateAge, todayIso } from './lib/age';
+import { calculateAge } from './lib/age';
 import { getBmiResult } from './lib/bmi';
 import { getBpResult } from './lib/bp';
 
 const initialForm: FormState = {
-  reference: '',
-  dateOfBirth: '',
   ageYears: '8',
   ageMonths: '4',
   sex: 'male',
@@ -30,7 +28,6 @@ const initialForm: FormState = {
   weightKg: '28',
   systolic: '112',
   diastolic: '72',
-  measurementDate: todayIso(),
 };
 
 const logoUrl = `${import.meta.env.BASE_URL}pedia-icon.svg`;
@@ -61,12 +58,10 @@ export default function App() {
 
   const parsed = useMemo(() => {
     const errors: Record<string, string> = {};
-    const measurementDate = form.measurementDate || todayIso();
     const ageYears = parseOptionalNumber(form.ageYears);
     const ageMonths = parseOptionalNumber(form.ageMonths);
     const age = calculateAge({
-      dateOfBirth: form.dateOfBirth || undefined,
-      measurementDate,
+      measurementDate: '',
       years: ageYears,
       months: ageMonths,
     });
@@ -76,15 +71,11 @@ export default function App() {
     const systolic = parseRequiredNumber(form.systolic, 'Systolic BP', errors, 'systolic', 40, 260);
     const diastolic = parseRequiredNumber(form.diastolic, 'Diastolic BP', errors, 'diastolic', 20, 180);
 
-    if (!form.measurementDate) errors.measurementDate = 'Measurement date is required.';
-    if (!age) errors.ageYears = 'Enter date of birth or age.';
+    if (!age) errors.ageYears = 'Enter age.';
     if (age && (age.decimalYears < 2 || age.decimalYears > 19)) {
       errors.ageYears = 'BMI-for-age scope is 2-19 years.';
     }
-    if (form.dateOfBirth && new Date(form.dateOfBirth) > new Date(measurementDate)) {
-      errors.dateOfBirth = 'Date of birth must be before measurement date.';
-    }
-    if (!form.dateOfBirth && (ageMonths ?? 0) > 11) {
+    if ((ageMonths ?? 0) > 11) {
       errors.ageMonths = 'Use 0-11 months.';
     }
 
@@ -103,13 +94,12 @@ export default function App() {
       return ['Enter complete valid measurements to generate a clinical summary.'];
     }
 
-    const child = form.reference.trim() ? form.reference.trim() : 'Child';
     return [
-      `${child}: ${parsed.age.label}, ${form.sex}; height ${formatNumber(parsed.heightCm)} cm, weight ${formatNumber(parsed.weightKg)} kg.`,
+      `Child: ${parsed.age.label}, ${form.sex}; height ${formatNumber(parsed.heightCm)} cm, weight ${formatNumber(parsed.weightKg)} kg.`,
       `BMI ${parsed.bmiResult.bmi.toFixed(1)} kg/m2, approximately ${parsed.bmiResult.percentile.toFixed(0)}th percentile: ${parsed.bmiResult.category}.`,
       `BP ${formatNumber(parsed.systolic)}/${formatNumber(parsed.diastolic)} mmHg: ${parsed.bpResult.category}.`,
     ];
-  }, [form.reference, form.sex, parsed]);
+  }, [form.sex, parsed]);
 
   const summary = summaryPoints.map((point) => `- ${point}`).join('\n');
 
@@ -178,11 +168,23 @@ export default function App() {
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white shadow-sm">
             <img className="h-10 w-10" src={logoUrl} alt="" aria-hidden="true" />
           </div>
-          <div>
+          <div className="min-w-0 flex-1">
             <h1 className="text-2xl font-bold leading-tight">PediaCentile</h1>
             <p className="text-sm text-slate-200">Pediatric BMI and BP screening support.</p>
           </div>
+          <button
+            type="button"
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-white/12 text-white transition hover:bg-white/20 focus:outline-none focus:ring-4 focus:ring-clinical-mint lg:hidden"
+            onClick={addToPhone}
+            aria-label="Add PediaCentile to phone home screen"
+            title="Add to phone"
+          >
+            {installPrompt ? <Home size={21} aria-hidden="true" /> : <Smartphone size={21} aria-hidden="true" />}
+          </button>
         </header>
+        {installMessage ? (
+          <p className="rounded-lg bg-slate-900 px-3 py-2 text-xs text-white shadow-card">{installMessage}</p>
+        ) : null}
 
         <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-950">
           <div className="flex gap-2">

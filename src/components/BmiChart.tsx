@@ -5,7 +5,6 @@ import {
   Line,
   ResponsiveContainer,
   Scatter,
-  Tooltip,
   XAxis,
   YAxis,
   ZAxis,
@@ -31,10 +30,6 @@ export function BmiChart({ sex, ageYears, bmiResult }: BmiChartProps) {
             <CartesianGrid strokeDasharray="3 3" stroke="#dbe5ea" />
             <XAxis dataKey="ageYears" type="number" domain={[2, 19]} tickCount={7} unit="y" />
             <YAxis domain={['dataMin - 1', 'dataMax + 2']} width={42} />
-            <Tooltip
-              formatter={(value) => typeof value === 'number' ? value.toFixed(1) : String(value ?? '')}
-              labelFormatter={(label) => `Age ${Number(label).toFixed(1)} y`}
-            />
             <Legend verticalAlign="top" height={28} />
             <Line type="monotone" dataKey="sdMinus2" name="-2 SD" stroke="#6b9ac4" dot={false} strokeWidth={2} />
             <Line type="monotone" dataKey="median" name="Median" stroke="#087f8c" dot={false} strokeWidth={2} />

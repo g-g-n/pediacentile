@@ -1,10 +1,8 @@
-import { CalendarDays, Check, User, UserRound, UserRoundCheck } from 'lucide-react';
+import { Check, User, UserRound, UserRoundCheck } from 'lucide-react';
 import type { ReactNode } from 'react';
 import type { Sex } from '../lib/bmi';
 
 export type FormState = {
-  reference: string;
-  dateOfBirth: string;
   ageYears: string;
   ageMonths: string;
   sex: Sex;
@@ -12,7 +10,6 @@ export type FormState = {
   weightKg: string;
   systolic: string;
   diastolic: string;
-  measurementDate: string;
 };
 
 type InputFormProps = {
@@ -39,43 +36,12 @@ export function InputForm({ value, errors, onChange }: InputFormProps) {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Name / reference ID" error={errors.reference}>
-          <input
-            className={inputClass}
-            value={value.reference}
-            onChange={(event) => setField('reference', event.target.value)}
-            placeholder="Optional"
-          />
-        </Field>
-
-        <Field label="Measurement date" error={errors.measurementDate}>
-          <div className="relative">
-            <CalendarDays className="pointer-events-none absolute left-3 top-3 text-slate-400" size={20} aria-hidden="true" />
-            <input
-              className={`${inputClass} pl-10`}
-              type="date"
-              value={value.measurementDate}
-              onChange={(event) => setField('measurementDate', event.target.value)}
-            />
-          </div>
-        </Field>
-
-        <Field label="Date of birth" error={errors.dateOfBirth}>
-          <input
-            className={inputClass}
-            type="date"
-            value={value.dateOfBirth}
-            onChange={(event) => setField('dateOfBirth', event.target.value)}
-          />
-        </Field>
-
         <div className="grid grid-cols-2 gap-3">
           <Field label="Age years" error={errors.ageYears}>
             <input
               className={inputClass}
               inputMode="numeric"
               value={value.ageYears}
-              disabled={Boolean(value.dateOfBirth)}
               onChange={(event) => setField('ageYears', event.target.value)}
               placeholder="8"
             />
@@ -85,7 +51,6 @@ export function InputForm({ value, errors, onChange }: InputFormProps) {
               className={inputClass}
               inputMode="numeric"
               value={value.ageMonths}
-              disabled={Boolean(value.dateOfBirth)}
               onChange={(event) => setField('ageMonths', event.target.value)}
               placeholder="4"
             />
