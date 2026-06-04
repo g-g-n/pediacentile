@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="PediaCentile logo">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="56" x2="432" y2="456" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#17324d"/>
+      <stop offset="1" stop-color="#087f8c"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="126" y1="104" x2="386" y2="414" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#e8f7f5"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="104" fill="url(#bg)"/>
+  <path d="M108 155c0-31 25-56 56-56h184c31 0 56 25 56 56v202c0 31-25 56-56 56H164c-31 0-56-25-56-56V155z" fill="url(#panel)"/>
+  <path d="M180 161h48v-48h56v48h48v55h-48v48h-56v-48h-48v-55z" fill="#087f8c"/>
+  <path d="M156 338c46-64 93-91 141-81 28 6 50 22 67 48" fill="none" stroke="#f2b84b" stroke-width="24" stroke-linecap="round"/>
+  <path d="M157 340h198" fill="none" stroke="#17324d" stroke-width="12" stroke-linecap="round" opacity=".16"/>
+  <circle cx="299" cy="258" r="22" fill="#e06d5f" stroke="#ffffff" stroke-width="10"/>
+  <path d="M151 143c0-8 6-14 14-14h42" fill="none" stroke="#ffffff" stroke-width="16" stroke-linecap="round" opacity=".46"/>
+</svg>

@@ -1,0 +1,18 @@
+{
+  "name": "PediaCentile",
+  "short_name": "PediaCentile",
+  "description": "Pediatric BMI and blood pressure screening support.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#17324d",
+  "icons": [
+    {
+      "src": "./pedia-icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
